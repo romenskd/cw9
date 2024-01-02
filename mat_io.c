@@ -56,19 +56,6 @@ double detRecursive(Matrix *mat) {
     return determinant;
 }
 
-int isSingular(Matrix *mat) {
-    if (mat->r != mat->c) {
-        fprintf(stderr, "Błąd! Macierz nie jest kwadratowa.\n");
-        return 1; 
-    }
-    double determinant = det(mat);
-    if (determinant == 0.0) {
-        fprintf(stderr, "Błąd! Macierz jest osobliwa.\n");
-        return 1; 
-    }
-
-    return 0; 
-}
 
 double det(Matrix *mat) {
     if (mat->r != mat->c) {
@@ -96,12 +83,12 @@ Matrix *readSquareMatrixFromFile(char *fname) {
                 for (ic = 0; ic < n; ic++)
                     fscanf(fin, "%lf", &(mat->data[ir][ic]));
         } else {
-            fprintf(stderr, "Problem creating a square matrix of size %d for data from file: %s\n", n, fname);
+            fprintf(stderr, "Problem z utworzeniem macierzy kwadratowej o rozmiarze %d dla danych z pliku: %s\n", n, fname);
         }
 
         fclose(fin);
     } else {
-        fprintf(stderr, "Cannot open the file named: %s\n", fname);
+        fprintf(stderr, "Nie mogę otworzyć plik %s\n", fname);
     }
 
     return mat;
@@ -120,12 +107,12 @@ Matrix *readVectorFromFile(char *fname) {
             for (ir = 0; ir < n; ir++)
                 fscanf(fin, "%lf", &(vec->data[ir][0]));
         } else {
-            fprintf(stderr, "Problem creating a vector of size %d for data from file: %s\n", n, fname);
+            fprintf(stderr, "Problem z utworzeniem wektora o rozmiarze %d dla danych z pliku: %s\n", n, fname);
         }
 
         fclose(fin);
     } else {
-        fprintf(stderr, "Cannot open the file named: %s\n", fname);
+        fprintf(stderr, "Nie mogę otworzyć plik %s\n", fname);
     }
 
     return vec;

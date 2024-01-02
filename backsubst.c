@@ -16,7 +16,7 @@ int backsubst(Matrix *x, Matrix *mat, Matrix *b) {
 
         if (mat->data[i][i] == 0.0) {
             fprintf(stderr, "Błąd! Dzielenie na zero. \n");
-            return 1; // Division by zero error
+            return 1; 
         }
 
         x->data[i][0] /= mat->data[i][i];

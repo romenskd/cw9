@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
     printf("Wektor b:\n");
     printToScreenB(b);
 
-    // Проверка на сингулярность матрицы
+    
     double determinant = det(A);
 
     if (determinant == 0.0) {
@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
 
         freeMatrix(x);
     } else {
-        fprintf(stderr, "Błąd! Nie mogłem utworzyć wektora wynikowego x.\n");
+        fprintf(stderr, "Błąd! Nie udalo sie utworzyć wektora wynikowego x.\n");
     }
 
     freeMatrix(A);

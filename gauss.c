@@ -33,7 +33,7 @@ int eliminate(Matrix *mat, Matrix *b) {
                 mat->data[swap_row][j] = temp;
             }
 
-            // Меняем строки в векторе b
+            
             double temp_b = b->data[k][0];
             b->data[k][0] = b->data[swap_row][0];
             b->data[swap_row][0] = temp_b;

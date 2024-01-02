@@ -16,9 +16,10 @@ Matrix *createMatrix(int r, int c);
 void freeMatrix(Matrix *mat);
 
 
-int isSingular(Matrix *mat);
+
 double det(Matrix *mat);
 double detRecursive(Matrix *mat); 
-Matrix *createMinor(Matrix *mat, int row, int col);  
+Matrix *createMinor(Matrix *mat, int row, int col); 
+
 
 #endif
