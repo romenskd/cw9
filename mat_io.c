@@ -1,6 +1,85 @@
 #include "mat_io.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "gauss.h"
+#include <math.h>
+
+double det(Matrix *mat);
+
+
+Matrix *createMinor(Matrix *mat, int row, int col) {
+    int minorRows = mat->r - 1;
+    int minorCols = mat->c - 1;
+    Matrix *minor = createMatrix(minorRows, minorCols);
+
+    if (minor != NULL) {
+        int minorRow = 0, minorCol = 0;
+        for (int i = 0; i < mat->r; i++) {
+            if (i == row) continue;
+
+            minorCol = 0;
+            for (int j = 0; j < mat->c; j++) {
+                if (j == col) continue;
+
+                minor->data[minorRow][minorCol] = mat->data[i][j];
+                minorCol++;
+            }
+
+            minorRow++;
+        }
+    }
+
+    return minor;
+}
+
+double detRecursive(Matrix *mat) {
+    if (mat->r == 1 && mat->c == 1) {
+        return mat->data[0][0];
+    }
+
+    if (mat->r == 2 && mat->c == 2) {
+        return mat->data[0][0] * mat->data[1][1] - mat->data[0][1] * mat->data[1][0];
+    }
+
+    double determinant = 0.0;
+    int sign = 1;
+
+    for (int j = 0; j < mat->c; j++) {
+        Matrix *minor = createMinor(mat, 0, j);
+        if (minor != NULL) {
+            determinant += sign * mat->data[0][j] * detRecursive(minor);
+            sign = -sign;
+            freeMatrix(minor);
+        }
+    }
+
+    return determinant;
+}
+
+int isSingular(Matrix *mat) {
+    if (mat->r != mat->c) {
+        fprintf(stderr, "Błąd! Macierz nie jest kwadratowa.\n");
+        return 1; 
+    }
+    double determinant = det(mat);
+    if (determinant == 0.0) {
+        fprintf(stderr, "Błąd! Macierz jest osobliwa.\n");
+        return 1; 
+    }
+
+    return 0; 
+}
+
+double det(Matrix *mat) {
+    if (mat->r != mat->c) {
+        fprintf(stderr, "Błąd! Macierz nie jest kwadratowa.\n");
+        return NAN; 
+    }
+
+    return detRecursive(mat);
+}
+
+
 
 Matrix *readSquareMatrixFromFile(char *fname) {
     int n, ir, ic;

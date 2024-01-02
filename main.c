@@ -21,19 +21,29 @@ int main(int argc, char **argv) {
     printf("Wektor b:\n");
     printToScreenB(b);
 
-        res = eliminate(A, b);
-        x = createMatrix(A->c, 1);
+    // Проверка на сингулярность матрицы
+    double determinant = det(A);
 
-        if (x != NULL) {
-            res = backsubst(x, A, b);
+    if (determinant == 0.0) {
+        fprintf(stderr, "Błąd! Macierz jest osobliwa. Nie można zastosować eliminacji Gaussa.\n");
+        freeMatrix(A);
+        freeMatrix(b);
+        return -1;
+    }
 
-            printf("Wektor wynikowy x:\n");
-            printToScreen(x);
+    res = eliminate(A, b);
+    x = createMatrix(A->c, 1);
 
-            freeMatrix(x);
-        } else {
-            fprintf(stderr, "Błąd! Nie mogłem utworzyć wektora wynikowego x.\n");
-        }
+    if (x != NULL) {
+        res = backsubst(x, A, b);
+
+        printf("Wektor wynikowy x:\n");
+        printToScreen(x);
+
+        freeMatrix(x);
+    } else {
+        fprintf(stderr, "Błąd! Nie mogłem utworzyć wektora wynikowego x.\n");
+    }
 
     freeMatrix(A);
     freeMatrix(b);
