@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 int eliminate(Matrix *mat, Matrix *b) {
     int i, j, k;
     int rows = mat->r;
@@ -10,9 +11,8 @@ int eliminate(Matrix *mat, Matrix *b) {
 
     for (k = 0; k < rows - 1; k++) {
         if (mat->data[k][k] == 0.0) {
-            fprintf(stderr, "\nElement diagonalny o indeksach %dx%d jest równy 0.\n\n", k+1, k+1);
+            fprintf(stderr, "\nElement diagonalny o indeksach %dx%d jest równy 0.\n\n", k + 1, k + 1);
 
-            
             int swap_row = -1;
             for (i = k + 1; i < rows; i++) {
                 if (mat->data[i][k] != 0.0) {
@@ -33,13 +33,17 @@ int eliminate(Matrix *mat, Matrix *b) {
                 mat->data[swap_row][j] = temp;
             }
 
-            
             double temp_b = b->data[k][0];
             b->data[k][0] = b->data[swap_row][0];
             b->data[swap_row][0] = temp_b;
         }
 
         for (i = k + 1; i < rows; i++) {
+            if (mat->data[k][k] == 0.0) {
+                fprintf(stderr, "Dzielenie przez zero.\n\n");
+                return 1;
+            }
+
             double factor = mat->data[i][k] / mat->data[k][k];
 
             for (j = k; j < cols; j++) {
@@ -52,4 +56,3 @@ int eliminate(Matrix *mat, Matrix *b) {
 
     return 0;
 }
-

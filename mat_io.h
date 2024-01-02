@@ -6,12 +6,11 @@ typedef struct _Matrix {
     double **data;
 } Matrix;
 
-Matrix *readVectorFromFile(char *fname); 
-Matrix *readSquareMatrixFromFile(char *fname) ; 
+
+Matrix *readFromFile(char *fname) ; 
 
 
 void printToScreen(Matrix *mat);
-void printToScreenB(Matrix *mat); 
 Matrix *createMatrix(int r, int c);
 void freeMatrix(Matrix *mat);
 
@@ -20,6 +19,7 @@ void freeMatrix(Matrix *mat);
 double det(Matrix *mat);
 double detRecursive(Matrix *mat); 
 Matrix *createMinor(Matrix *mat, int row, int col); 
+
 
 
 #endif

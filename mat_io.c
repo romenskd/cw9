@@ -5,7 +5,7 @@
 #include <math.h>
 
 double det(Matrix *mat);
-
+Matrix *createMatrix(int r, int c);
 
 Matrix *createMinor(Matrix *mat, int row, int col) {
     int minorRows = mat->r - 1;
@@ -58,32 +58,34 @@ double detRecursive(Matrix *mat) {
 
 
 double det(Matrix *mat) {
-    if (mat->r != mat->c) {
-        fprintf(stderr, "Błąd! Macierz nie jest kwadratowa.\n");
-        return NAN; 
-    }
-
-    return detRecursive(mat);
+    if(mat->r != mat->c){
+        fprintf(stderr, "Macierz nie jest kwadratowa \n");
+        exit(EXIT_FAILURE); 
+    } else {
+        return detRecursive(mat);
+    }   
 }
 
 
 
-Matrix *readSquareMatrixFromFile(char *fname) {
-    int n, ir, ic;
+Matrix *readFromFile(char *fname) {
+    int r, c, ir, ic;
     FILE *fin = fopen(fname, "r");
     Matrix *mat = NULL;
 
     if (fin != NULL) {
-        fscanf(fin, "%d", &n);
+        fscanf(fin, "%d %d", &r, &c);
         
-        mat = createMatrix(n, n);
+        mat = createMatrix(r, c);
 
         if (mat != NULL) {
-            for (ir = 0; ir < n; ir++)
-                for (ic = 0; ic < n; ic++)
+            for (ir = 0; ir < r; ir++)
+                for (ic = 0; ic < c; ic++)
                     fscanf(fin, "%lf", &(mat->data[ir][ic]));
+
+            fgetc(fin); 
         } else {
-            fprintf(stderr, "Problem z utworzeniem macierzy kwadratowej o rozmiarze %d dla danych z pliku: %s\n", n, fname);
+            fprintf(stderr, "Problem z utworzeniem macierzy z pliku: %s\n", fname);
         }
 
         fclose(fin);
@@ -94,29 +96,6 @@ Matrix *readSquareMatrixFromFile(char *fname) {
     return mat;
 }
 
-Matrix *readVectorFromFile(char *fname) {
-    int n, ir;
-    FILE *fin = fopen(fname, "r");
-    Matrix *vec = NULL;
-
-    if (fin != NULL) {
-        fscanf(fin, "%d", &n);
-        vec = createMatrix(n, 1);
-
-        if (vec != NULL) {
-            for (ir = 0; ir < n; ir++)
-                fscanf(fin, "%lf", &(vec->data[ir][0]));
-        } else {
-            fprintf(stderr, "Problem z utworzeniem wektora o rozmiarze %d dla danych z pliku: %s\n", n, fname);
-        }
-
-        fclose(fin);
-    } else {
-        fprintf(stderr, "Nie mogę otworzyć plik %s\n", fname);
-    }
-
-    return vec;
-}
 
 void printToScreen(Matrix *mat) {
     int i, j;
@@ -131,16 +110,7 @@ void printToScreen(Matrix *mat) {
     printf("]\n");
 }
 
-void printToScreenB(Matrix *mat) {
-    int i, j;
-    printf("[ \n");
-    for (i = 0; i < mat->r; i++) {
-        printf("  ");
-        printf("%f ", mat->data[i][0]);
-        printf("; \n");
-    }
-    printf("]\n");
-}
+
 
 Matrix *createMatrix(int r, int c) {
     int i;

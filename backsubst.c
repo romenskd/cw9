@@ -1,6 +1,7 @@
 #include "backsubst.h"
 #include "mat_io.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int backsubst(Matrix *x, Matrix *mat, Matrix *b) {
     int i, j;
@@ -15,7 +16,7 @@ int backsubst(Matrix *x, Matrix *mat, Matrix *b) {
         }
 
         if (mat->data[i][i] == 0.0) {
-            fprintf(stderr, "Błąd! Dzielenie na zero. \n");
+            fprintf(stderr, "Dzielenie przez zero.\n \n");
             return 1; 
         }
 

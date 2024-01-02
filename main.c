@@ -6,8 +6,8 @@
 
 int main(int argc, char **argv) {
     int res;
-    Matrix *A = readSquareMatrixFromFile(argc > 1 ? argv[1] : "A.txt");
-    Matrix *b = readVectorFromFile(argc > 2 ? argv[2] : "b.txt");
+    Matrix *A = readFromFile(argc > 1 ? argv[1] : "A.txt");
+    Matrix *b = readFromFile(argc > 2 ? argv[2] : "b.txt");
     Matrix *x;
 
     if (A == NULL || b == NULL) {
@@ -19,8 +19,8 @@ int main(int argc, char **argv) {
     printToScreen(A);
 
     printf("Wektor b:\n");
-    printToScreenB(b);
-
+    printToScreen(b);
+    
     
     double determinant = det(A);
 
@@ -30,13 +30,14 @@ int main(int argc, char **argv) {
         freeMatrix(b);
         return -1;
     }
-
+     
+    
     res = eliminate(A, b);
     x = createMatrix(A->c, 1);
 
     if (x != NULL) {
+        
         res = backsubst(x, A, b);
-
         printf("Wektor wynikowy x:\n");
         printToScreen(x);
 
