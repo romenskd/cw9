@@ -35,5 +35,5 @@ Przykład `b.txt`:
 Program można uruchomić z linii poleceń, podając pliki wejściowe jako argumenty. Przykład:
 
 ```bash
-./my_program A.txt b.txt
+../my_program A.txt b.txt
 
