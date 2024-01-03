@@ -1,18 +1,21 @@
 CC = gcc 
-my_program: main.o mat_io.o gauss.o backsubst.o
-	$(CC) -o my_program main.o mat_io.o gauss.o backsubst.o $(LDFLAGS)
+SRC_DIR = src
+BIN_DIR = bin
 
-main.o: main.c mat_io.h gauss.h backsubst.h
-	$(CC) -c $(CFLAGS) main.c
+my_program: $(BIN_DIR)/main.o $(BIN_DIR)/mat_io.o $(BIN_DIR)/gauss.o $(BIN_DIR)/backsubst.o
+	$(CC) -o $@ $^ $(LDFLAGS)
 
-mat_io.o: mat_io.c mat_io.h
-	$(CC) -c $(CFLAGS) mat_io.c
+$(BIN_DIR)/main.o: $(SRC_DIR)/main.c $(SRC_DIR)/mat_io.h $(SRC_DIR)/gauss.h $(SRC_DIR)/backsubst.h
+	$(CC) -c $(CFLAGS) $< -o $@
 
-gauss.o: gauss.c gauss.h
-	$(CC) -c $(CFLAGS) gauss.c
+$(BIN_DIR)/mat_io.o: $(SRC_DIR)/mat_io.c $(SRC_DIR)/mat_io.h
+	$(CC) -c $(CFLAGS) $< -o $@
 
-backsubst.o: backsubst.c backsubst.h
-	$(CC) -c $(CFLAGS) backsubst.c
+$(BIN_DIR)/gauss.o: $(SRC_DIR)/gauss.c $(SRC_DIR)/gauss.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+$(BIN_DIR)/backsubst.o: $(SRC_DIR)/backsubst.c $(SRC_DIR)/backsubst.h
+	$(CC) -c $(CFLAGS) $< -o $@
 
 clean:
-	rm -f my_program *.o
+	rm -f my_program $(BIN_DIR)/*.o
